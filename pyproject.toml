@@ -2,11 +2,16 @@
 name = "clip-dk"
 version = "0.1.0"
 description = ""
-authors = ["Charles Parker <charles.parker@mdpanel.com>"]
+authors = ["Charles Parker <charles@parkerfolk.net>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
+streamlit = "^1.39.0"
+opencv-python-headless = "^4.10.0.84"
+ultralytics = "^8.3.5"
+pillow = "^10.4.0"
 
 
 [build-system]

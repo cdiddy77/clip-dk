@@ -1,8 +1,9 @@
 from collections import defaultdict
-
+import os
 import cv2
 import numpy as np
 
+print(type(cv2))
 from ultralytics import YOLO
 
 # Load the YOLO11 model
@@ -10,7 +11,12 @@ model = YOLO("yolo11n.pt")
 
 # Open the video file
 # video_path = "ungitable/2Keb4OOS9Edo9Q0a.mp4"
-video_path = "ungitable/K2pi6nnfDaic0lO4.mp4"
+video_path = "ungitable/2cKVta2pHP2Eq2ts.mp4"
+if not os.path.exists(video_path):
+    print(f"File {video_path} does not exist")
+    exit()
+else:
+    print(f"File {video_path} exists")
 cap = cv2.VideoCapture(video_path)
 
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -18,7 +24,7 @@ frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 fps = cap.get(cv2.CAP_PROP_FPS)
 
 # Define the codec and create VideoWriter object
-output_path = "output_video.mp4"
+output_path = "ungitable/output_video.mp4"
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")  # Codec for .mp4 files
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
@@ -60,11 +66,11 @@ while cap.isOpened():
             )
 
         # Display the annotated frame
-        cv2.imshow("YOLO11 Tracking", annotated_frame)
+        # cv2.imshow("YOLO11 Tracking", annotated_frame)
         out.write(annotated_frame)
         # Break the loop if 'q' is pressed
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+        # if cv2.waitKey(1) & 0xFF == ord("q"):
+        #     break
     else:
         # Break the loop if the end of the video is reached
         break

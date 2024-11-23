@@ -39,6 +39,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# label studio
+label-studio/deploy.zip
+
 # python
 # Byte-compiled / optimized / DLL files
 __pycache__/

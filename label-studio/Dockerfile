@@ -5,4 +5,5 @@ FROM heartexlabs/label-studio:latest
 EXPOSE 8080
 
 # Define the entrypoint for Cloud Run
-CMD ["label-studio" ,"start" ,"clip_dk" ,"--init" ,"-db" ,"postgresql"]
+CMD ["label-studio","-db" ,"postgresql"]
+# CMD ["label-studio"]

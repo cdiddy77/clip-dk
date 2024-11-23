@@ -1,0 +1,18 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+        "Name": "422882556319.dkr.ecr.us-east-1.amazonaws.com/labelstudio:latest",
+        "Update": "true"
+    },
+    "Ports": [
+        {
+            "ContainerPort": "8080"
+        }
+    ],
+    "Volumes": [
+        {
+            "HostDirectory": "/efs/data/",
+            "ContainerDirectory": "/label-studio/data/"
+        }
+    ]
+}

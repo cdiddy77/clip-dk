@@ -51,3 +51,6 @@ __pycache__/
 *.egg-info
 
 .vscode
+
+# models
+yolo*.pt

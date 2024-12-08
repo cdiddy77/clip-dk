@@ -34,10 +34,6 @@ class ClipData(BaseModel):
     veloEventList: List[VeloEvent]
 
 
-# Example usage:
-# data = ClipData.parse_raw(json_string)
-
-
 def clip_data_from_jsonl(file_path: str) -> List[ClipData]:
     result: List[ClipData] = []
     with open(file_path, "r") as f:
@@ -47,7 +43,11 @@ def clip_data_from_jsonl(file_path: str) -> List[ClipData]:
 
 
 if __name__ == "__main__":
-    data = clip_data_from_jsonl(
-        "/home/charles/dev/YOLOv8_Segmentation_DeepSORT_Object_Tracking/ungitable/_clip_data.jsonl"
-    )
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Process clip data from a JSONL file.")
+    parser.add_argument("--input", required=True, help="Path to the input JSONL file")
+    args = parser.parse_args()
+
+    data = clip_data_from_jsonl(args.input)
     print([x.clipId for x in data[:10]])

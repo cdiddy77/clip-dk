@@ -124,8 +124,10 @@ def measure_movement(
 
     movement = 0.0
 
-    not_in_prev_frame = set(identity_map.keys()) - set(prev_identity_map.keys())
-    not_in_this_frame = set(prev_identity_map.keys()) - set(identity_map.keys())
+    not_in_prev_frame = set(identity_map.keys()) - \
+        set(prev_identity_map.keys())
+    not_in_this_frame = set(prev_identity_map.keys()) - \
+        set(identity_map.keys())
     for identity in not_in_prev_frame:
         movement += OBJECT_APPEARS_MOVEMENT_VALUE
 
@@ -145,7 +147,8 @@ def measure_movement(
                 / area(frame.bbox_xyxy[i])
             )
             movement += (
-                distance_between_bboxes(frame.bbox_xyxy[i], prev_frame.bbox_xyxy[j])
+                distance_between_bboxes(
+                    frame.bbox_xyxy[i], prev_frame.bbox_xyxy[j])
                 * z_factor
             )
             # we could also consider the size or shape of the box
@@ -158,10 +161,12 @@ def create_movement_by_frame(deepsort_output: DeepsortOutput) -> list[MovementBy
     movement_by_frame: list[MovementByFrame] = []
     for i in range(len(deepsort_output.frames)):
         movement = measure_movement(deepsort_output, i)
-        movement_by_frame.append({"ts": float(i) / STANDARD_FPS, "movement": movement})
+        movement_by_frame.append(
+            {"ts": float(i) / STANDARD_FPS, "movement": movement})
     return movement_by_frame
 
 
 if __name__ == "__main__":
-    result = gen_deepsort_output("ungitable/2cKVta2pHP2Eq2ts.mp4", max_frames=10)
+    result = gen_deepsort_output(
+        "ungitable/2cKVta2pHP2Eq2ts.mp4", max_frames=10)
     print(result)

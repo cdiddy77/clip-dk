@@ -1,0 +1,24 @@
+{
+    "name": "clip-dk",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.pythonPath": "/usr/local/bin/python",
+                "python.defaultInterpreterPath": "/workspaces/clip-dk/.venv/bin/python"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ]
+        }
+    },
+    "postCreateCommand": "poetry install && poetry show -v",
+    "runArgs": [
+        "--gpus",
+        "all"
+    ],
+    "remoteUser": "vscode"
+}

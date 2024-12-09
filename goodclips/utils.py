@@ -12,7 +12,7 @@ from goodclips.deepsort_types import (
     MovementByFrame,
 )
 
-logging.getLogger("ultralytics").setLevel(logging.WARNING)
+# logging.getLogger("ultralytics").setLevel(logging.WARNING)
 
 
 def intersection_area(boxA: list[float], boxB: list[float]) -> float:

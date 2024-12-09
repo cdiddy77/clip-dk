@@ -16,9 +16,14 @@
         }
     },
     "postCreateCommand": "poetry install && poetry show -v",
-    "runArgs": [
-        "--gpus",
-        "all"
-    ],
+    // uncomment this if you want to use the GPU
+    // "runArgs": [
+    //     "--gpus",
+    //     "all"
+    // ],
+    // this doesn't do what we want
+    "hostRequirements": {
+        "gpu": "optional"
+    },
     "remoteUser": "vscode"
 }

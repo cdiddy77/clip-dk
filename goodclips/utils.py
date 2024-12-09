@@ -2,8 +2,17 @@ import math
 import cv2
 from ultralytics import YOLO
 import os
+import json
+import logging
+from goodclips.deepsort_types import (
+    OBJECT_APPEARS_MOVEMENT_VALUE,
+    STANDARD_FPS,
+    DeepsortOutput,
+    DeepsortOutputFrame,
+    MovementByFrame,
+)
 
-from goodclips.types import DeepsortOutput, DeepsortOutputFrame
+logging.getLogger("ultralytics").setLevel(logging.WARNING)
 
 
 def intersection_area(boxA: list[float], boxB: list[float]) -> float:
@@ -79,6 +88,12 @@ def gen_deepsort_output(video_file: str, max_frames: int = -1) -> DeepsortOutput
     return DeepsortOutput(frames=frames, object_id_names=object_id_names)
 
 
+def parse_deepsort_output(file_path: str) -> DeepsortOutput:
+    with open(file_path, "r") as file:
+        data = json.load(file)
+    return DeepsortOutput(**data)
+
+
 def measure_movement(
     deepsort_output: DeepsortOutput,
     frame_index: int,
@@ -92,19 +107,30 @@ def measure_movement(
     # of the identity in this frame to the index of the identity in the previous frame
     identity_map = {}
     for i, identity in enumerate(frame.identities):
+        is_person = deepsort_output.object_id_names[frame.object_id[i]] == "person"
+        if not is_person:
+            continue
         if identity not in identity_map:
             identity_map[identity] = []
         identity_map[identity].append(i)
     prev_identity_map = {}
     for i, identity in enumerate(prev_frame.identities):
+        is_person = deepsort_output.object_id_names[prev_frame.object_id[i]] == "person"
+        if not is_person:
+            continue
         if identity not in prev_identity_map:
             prev_identity_map[identity] = []
         prev_identity_map[identity].append(i)
 
     movement = 0.0
 
-    # not_in_prev_frame = set(identity_map.keys()) - set(prev_identity_map.keys())
-    # not_in_this_frame = set(prev_identity_map.keys()) - set(identity_map.keys())
+    not_in_prev_frame = set(identity_map.keys()) - set(prev_identity_map.keys())
+    not_in_this_frame = set(prev_identity_map.keys()) - set(identity_map.keys())
+    for identity in not_in_prev_frame:
+        movement += OBJECT_APPEARS_MOVEMENT_VALUE
+
+    for identity in not_in_this_frame:
+        movement += OBJECT_APPEARS_MOVEMENT_VALUE
 
     for identity in identity_map:
         # for now we don't consider identities that are not in the previous frame
@@ -126,6 +152,14 @@ def measure_movement(
             # changing over time.
 
     return movement
+
+
+def create_movement_by_frame(deepsort_output: DeepsortOutput) -> list[MovementByFrame]:
+    movement_by_frame: list[MovementByFrame] = []
+    for i in range(len(deepsort_output.frames)):
+        movement = measure_movement(deepsort_output, i)
+        movement_by_frame.append({"ts": float(i) / STANDARD_FPS, "movement": movement})
+    return movement_by_frame
 
 
 if __name__ == "__main__":

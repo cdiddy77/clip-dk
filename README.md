@@ -37,6 +37,9 @@ in a file, e.g. `ungitable/clip.json` and evaluate thus:
 python goodclips/validate.py --clip_json ungitable/clip.json
 ```
 
-## notebooks
+## notebooks and utilities
 
-- `notebools/annotations.ipynb` : 
+- `notebooks/annotations.ipynb` : digs into analyzing clips
+- `notebooks/measure_movement.ipynb` : a simple way to generate graps of movement
+
+- `goodclips/gen_deepsorts.py` : builds the deepsort json files from the video files

@@ -3,11 +3,12 @@ import requests
 from goodclips.ls_task import Data, parse_mainjson_list
 
 
-def download_clip(data: Data, video_path):
+def download_clip(data: Data, video_path) -> str:
     response = requests.get(data.fileDownloadUrl)
     file_path = f"{video_path}/{data.clipId}.mp4"
     with open(file_path, "wb") as file:
         file.write(response.content)
+    return file_path
 
 
 if __name__ == "__main__":

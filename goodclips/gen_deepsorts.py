@@ -37,7 +37,7 @@ count = 0
 for anno, data in annos:
     try:
         gen_deepsort("ungitable/deepsort", data)
-        print(f"******* [{count}] Processed data[{data.clipId}]")
+        print(f"[{count}] Processed data[{data.clipId}]")
     except Exception as e:
-        print(f"******* [{count}] ERROR processing data[{data.clipId}]: {e}")
+        print(f"[{count}] ERROR processing data[{data.clipId}]: {e}")
     count += 1

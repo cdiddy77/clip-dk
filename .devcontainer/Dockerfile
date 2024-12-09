@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0
 
-    # Install Poetry
+# Install Poetry
 ENV POETRY_HOME=/home/vscode/.local
 RUN curl -sSL https://install.python-poetry.org | python3 - && \
     echo "Poetry version:" && \
@@ -14,6 +14,11 @@ RUN curl -sSL https://install.python-poetry.org | python3 - && \
 
 # Set the Poetry path (adjust for container user setup)
 ENV PATH="/home/vscode/.local/bin:$PATH"
+
+RUN python -m venv /workspaces/clip-dk/.venv
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1
 
 # Set the working directory
 WORKDIR /workspace

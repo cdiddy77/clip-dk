@@ -1,12 +1,18 @@
 # clip-dk
 
+open this directory in vscode. When prompted to reopen in devcontainer, do so. 
+
 > Note: if you are using this project on a computer with an nvidia gpu and you want the benefit
 of that GPU inside the dev container, you must add an environment variable to your `~/.profile` and/or `~/.bashrc` and/or whatever Windows thing. 
 > ```
 > export DEVCONTAINER_GPU_ARGS="--gpus=all"
 > ```
+> and if you are using this project on a computer without such a gpu, instead:
+> ```
+> export DEVCONTAINER_GPU_ARGS="--env=NO_GPU=1"
+> ```
 
-open this directory in vscode. When prompted to reopen in devcontainer, do so. 
+
 
 ## to evaluate the confidence for a given clip:
  store the clip JSON, e.g. 
